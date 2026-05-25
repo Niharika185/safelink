@@ -22,7 +22,7 @@ router.get('/:userId', (req, res) => {
 router.get('/qr/:userId', async (req, res) => {
   const { userId } = req.params;
   try {
-   const url = `${process.env.FRONTEND_URL}/emergency/${userId}`;
+ const url = `https://safelink-blue.vercel.app/emergency/${userId}`;
     const qrCode = await QRCode.toDataURL(url);
     res.json({ qrCode });
   } catch (err) {
