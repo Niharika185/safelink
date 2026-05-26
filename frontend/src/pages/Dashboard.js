@@ -17,7 +17,7 @@ function Dashboard() {
 
   const fetchQR = async () => {
     try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/emergency/qr/${userId}`);
+ const res = await axios.get(`https://safelink-production.up.railway.app/api/emergency/qr/${userId}`);
       setQrCode(res.data.qrCode);
     } catch (err) {
       console.error('QR fetch error', err);

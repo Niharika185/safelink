@@ -21,7 +21,7 @@ function EditProfile() {
 
   const fetchProfile = async () => {
     try {
-   const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/profile`, {
+   const res = await axios.get(`https://safelink-production.up.railway.app/api/profile`, {
         headers: { authorization: token }
       });
       if (res.data) setForm(res.data);
@@ -37,7 +37,7 @@ function EditProfile() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-     await axios.put(`${process.env.REACT_APP_API_URL}/api/profile`, form, {
+    await axios.put(`https://safelink-production.up.railway.app/api/profile`, form, {
         headers: { authorization: token }
       });
       setMessage('Profile saved successfully!');
