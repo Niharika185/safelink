@@ -13,7 +13,7 @@ function EmergencyPage() {
 
   const fetchEmergencyData = async () => {
     try {
-      const res = await axios.get(`https://safelink-production.up.railway.app/api/emergency/${userId}`);
+      const res = await axios.get(`https://safelink-backend-ccyn.onrender.com/api/emergency/${userId}`);
       setData(res.data);
     } catch (err) {
       setError('Person not found or no data available');

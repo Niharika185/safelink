@@ -17,7 +17,7 @@ function Dashboard() {
 
   const fetchQR = async () => {
     try {
- const res = await axios.get(`https://safelink-production.up.railway.app/api/emergency/qr/${userId}`);
+ const res = await axios.get(`https://safelink-backend-ccyn.onrender.com/api/emergency/qr/${userId}`);
       setQrCode(res.data.qrCode);
     } catch (err) {
       console.error('QR fetch error', err);

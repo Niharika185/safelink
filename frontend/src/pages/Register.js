@@ -12,7 +12,7 @@ function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-     await axios.post(`https://safelink-production.up.railway.app/api/auth/register`, { name, email, password });
+     await axios.post(`https://safelink-backend-ccyn.onrender.com/api/auth/register`, { name, email, password });
       navigate('/');
     } catch (err) {
       setError('Registration failed. Email may already exist.');
