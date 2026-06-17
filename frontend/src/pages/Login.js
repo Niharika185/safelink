@@ -11,7 +11,7 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`https://safelink-backend-ccyn.onrender.com/api/auth/login`, { email, password });
+      const res = await axios.post(`https://safelink-backend-new.onrender.com/api/auth/login`, { email, password });
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('userId', res.data.userId);
       localStorage.setItem('name', res.data.name);
