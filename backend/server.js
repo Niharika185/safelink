@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const connectDB = require('./db');
 
 dotenv.config();
 
@@ -9,12 +10,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Test route
+connectDB();
+
 app.get('/', (req, res) => {
   res.json({ message: 'SafeLink server is running!' });
 });
 
-// Routes
 const authRoutes = require('./routes/auth');
 const profileRoutes = require('./routes/profile');
 const emergencyRoutes = require('./routes/emergency');

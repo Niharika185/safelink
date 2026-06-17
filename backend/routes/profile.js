@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db');
 const jwt = require('jsonwebtoken');
+const MedicalProfile = require('../models/MedicalProfile');
 
-// Middleware to verify token
 const verifyToken = (req, res, next) => {
   const token = req.headers['authorization'];
   if (!token) return res.status(401).json({ error: 'No token provided' });
@@ -14,31 +13,27 @@ const verifyToken = (req, res, next) => {
   });
 };
 
-// Get profile
-router.get('/', verifyToken, (req, res) => {
-  const sql = 'SELECT * FROM medical_profiles WHERE user_id = ?';
-  db.query(sql, [req.userId], (err, results) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json(results[0] || {});
-  });
+router.get('/', verifyToken, async (req, res) => {
+  try {
+    const profile = await MedicalProfile.findOne({ user_id: req.userId });
+    res.json(profile || {});
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-// Save or update profile
-router.put('/', verifyToken, (req, res) => {
+router.put('/', verifyToken, async (req, res) => {
   const { blood_group, allergies, medical_conditions, address, phone } = req.body;
-  const sql = `INSERT INTO medical_profiles 
-    (user_id, blood_group, allergies, medical_conditions, address, phone)
-    VALUES (?, ?, ?, ?, ?, ?)
-    ON DUPLICATE KEY UPDATE
-    blood_group=?, allergies=?, medical_conditions=?, address=?, phone=?`;
-  db.query(sql, 
-    [req.userId, blood_group, allergies, medical_conditions, address, phone,
-     blood_group, allergies, medical_conditions, address, phone],
-    (err, result) => {
-      if (err) return res.status(500).json({ error: err.message });
-      res.json({ message: 'Profile updated successfully' });
-    }
-  );
+  try {
+    const profile = await MedicalProfile.findOneAndUpdate(
+      { user_id: req.userId },
+      { blood_group, allergies, medical_conditions, address, phone },
+      { upsert: true, new: true }
+    );
+    res.json({ message: 'Profile updated successfully', profile });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 module.exports = router;
